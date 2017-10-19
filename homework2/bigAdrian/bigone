@@ -1,0 +1,321 @@
+#!/bin/sh
+# This is a shell archive (produced by GNU sharutils 4.7).
+# To extract the files from this archive, save it to some FILE, remove
+# everything before the `#!/bin/sh' line above, then type `sh FILE'.
+#
+lock_dir=_sh12856
+# Made on 2017-01-27 17:26 EST by <n00798593@osprey.unfcsd.unf.edu>.
+# Source directory was `/home/93/n00798593/bigAdrian'.
+#
+# Existing files will *not* be overwritten, unless `-c' is specified.
+#
+# This shar contains:
+# length mode       name
+# ------ ---------- ------------------------------------------
+#   1766 -rw-r--r-- n00798593.c
+#    519 -rw-r--r-- oddEvenSort.c
+#    143 -rw-r--r-- swap.c
+#    193 -rw-r--r-- my.h
+#
+MD5SUM=${MD5SUM-md5sum}
+f=`${MD5SUM} --version | egrep '^md5sum .*(core|text)utils'`
+test -n "${f}" && md5check=true || md5check=false
+${md5check} || \
+  echo 'Note: not verifying md5sums.  Consider installing GNU coreutils.'
+save_IFS="${IFS}"
+IFS="${IFS}:"
+gettext_dir=FAILED
+locale_dir=FAILED
+first_param="$1"
+for dir in $PATH
+do
+  if test "$gettext_dir" = FAILED && test -f $dir/gettext \
+     && ($dir/gettext --version >/dev/null 2>&1)
+  then
+    case `$dir/gettext --version 2>&1 | sed 1q` in
+      *GNU*) gettext_dir=$dir ;;
+    esac
+  fi
+  if test "$locale_dir" = FAILED && test -f $dir/shar \
+     && ($dir/shar --print-text-domain-dir >/dev/null 2>&1)
+  then
+    locale_dir=`$dir/shar --print-text-domain-dir`
+  fi
+done
+IFS="$save_IFS"
+if test "$locale_dir" = FAILED || test "$gettext_dir" = FAILED
+then
+  echo=echo
+else
+  TEXTDOMAINDIR=$locale_dir
+  export TEXTDOMAINDIR
+  TEXTDOMAIN=sharutils
+  export TEXTDOMAIN
+  echo="$gettext_dir/gettext -s"
+fi
+if (echo "testing\c"; echo 1,2,3) | grep c >/dev/null
+then if (echo -n test; echo 1,2,3) | grep n >/dev/null
+     then shar_n= shar_c='
+'
+     else shar_n=-n shar_c= ; fi
+else shar_n= shar_c='\c' ; fi
+f=shar-touch.$$
+st1=200112312359.59
+st2=123123592001.59
+st2tr=123123592001.5 # old SysV 14-char limit
+st3=1231235901
+
+if touch -am -t ${st1} ${f} >/dev/null 2>&1 && \
+   test ! -f ${st1} && test -f ${f}; then
+  shar_touch='touch -am -t $1$2$3$4$5$6.$7 "$8"'
+
+elif touch -am ${st2} ${f} >/dev/null 2>&1 && \
+   test ! -f ${st2} && test ! -f ${st2tr} && test -f ${f}; then
+  shar_touch='touch -am $3$4$5$6$1$2.$7 "$8"'
+
+elif touch -am ${st3} ${f} >/dev/null 2>&1 && \
+   test ! -f ${st3} && test -f ${f}; then
+  shar_touch='touch -am $3$4$5$6$2 "$8"'
+
+else
+  shar_touch=:
+  echo
+  ${echo} 'WARNING: not restoring timestamps.  Consider getting and'
+  ${echo} 'installing GNU `touch'\'', distributed in GNU coreutils...'
+  echo
+fi
+rm -f ${st1} ${st2} ${st2tr} ${st3} ${f}
+#
+if test ! -d ${lock_dir}
+then : ; else ${echo} 'lock directory '${lock_dir}' exists'
+  exit 1
+fi
+if mkdir ${lock_dir}
+then ${echo} 'x - created lock directory `'${lock_dir}\''.'
+else ${echo} 'x - failed to create lock directory `'${lock_dir}\''.'
+  exit 1
+fi
+# ============= n00798593.c ==============
+if test -f 'n00798593.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING n00798593.c (file already exists)'
+else
+${echo} 'x - extracting n00798593.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'n00798593.c' &&
+/* This program will do the following
+X	1.) Read a data of integers from the command line
+X	2.) Sort the integers using an odd-even sort
+X	3.) Ask the user for an index inside the sorted array
+X	4.) The program will return the value inside the user-input index
+X	
+X	Written by: Adrian Santos (N00798593)
+X	Date: 01/23/2017
+*/
+X
+//Preprocessor
+#include "my.h"
+X
+//Main Method
+int main(int argc, char *argv[1]){
+X
+X	//Local Declarations
+X	int i = 0;
+X	int *b;
+X	int size;
+X	int j;
+X	int key;
+X	FILE* file = fopen(argv[1], "r");
+X
+X	//Statements
+X		//File Checker
+X	        if(file == NULL){
+X		printf("Data not found. Please run the program again with the data.");
+X		exit(1);
+X		}//end if 
+X
+X		//Read a file
+X		fscanf(file, "%d", &size);
+X   		//printf("\nHere is the size of the array: %d \n",size);
+X 		
+X		//Calloc file
+X		b = (int*)calloc(size, sizeof(int));
+X		
+X	
+X		printf("\nHere is the data from the data file\n");
+X   		for(j=0; j<size; j++){
+X    			fscanf(file, "%d ", &b[j]);
+X   			//printf("%d ", b[j]);
+X  		 }
+X		
+X
+X		//Sorted the array
+X		oddEvenSort(b, size);
+X		printf("The array is already sorted. \n");
+X	/*	for(j=0; j<size; j++){
+X			printf("%d ", b[j]);	
+X		}*/		
+X		
+X		//Get an input from the user
+X		while(!(key == -1)){
+X		printf("Please enter a number to find its index (-1 ends the program): ");
+X		scanf("%d", &key);
+X		if(!(key == -1)){		
+X			if(key > size-1){
+X				printf("The number entered is too large. Please enter an index less than or equal %d \n", size-1);
+X				continue;
+X			}//end if
+X			else if(key < -1){
+X				printf("The entered is below the array index. Please enter a number larger than -2 \n");
+X				continue;
+X			}//end else if
+X			else
+X			printf("The number found at index %d is: %d \n", key, b[key]);
+X			}//end if 
+X		}//end while
+X
+X		fclose(file);
+X		free(b);
+X				
+}//end main
+SHAR_EOF
+  (set 20 17 01 27 17 01 05 'n00798593.c'; eval "$shar_touch") &&
+  chmod 0644 'n00798593.c'
+if test $? -ne 0
+then ${echo} 'restore of n00798593.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'n00798593.c: MD5 check failed'
+       ) << \SHAR_EOF
+76cd49fd3865e590d9385c83e1c07174  n00798593.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'n00798593.c'` -ne 1766 && \
+  ${echo} 'restoration warning:  size of n00798593.c is not 1766'
+  fi
+fi
+# ============= oddEvenSort.c ==============
+if test -f 'oddEvenSort.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING oddEvenSort.c (file already exists)'
+else
+${echo} 'x - extracting oddEvenSort.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'oddEvenSort.c' &&
+#include "my.h"
+X
+//This program does the odd even sort
+X
+void oddEvenSort(int list[], int length){
+X
+//Local Declarations
+int i, j;
+int isSorted = 0;
+X
+//Statements
+X	while(!isSorted){
+X		isSorted = 1;
+X		for(i = 1; i < length-1; i += 2){
+X			if((list[i] > list[i+1])){
+X			swap(list, i, i+1);
+X			isSorted = 0;
+X			}//end if
+X		}//end for loop
+X		
+X		for(i = 0; i < length -1; i += 2){
+X			if((list[i] > list[i+1])){
+X				swap(list, i, i+1);
+X				isSorted = 0;
+X			}//end if
+X		}//end for loop
+X	}//end while
+return;
+X
+}//end of function
+SHAR_EOF
+  (set 20 17 01 27 16 12 08 'oddEvenSort.c'; eval "$shar_touch") &&
+  chmod 0644 'oddEvenSort.c'
+if test $? -ne 0
+then ${echo} 'restore of oddEvenSort.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'oddEvenSort.c: MD5 check failed'
+       ) << \SHAR_EOF
+c638ca5a28d13c7289c89f86c145e2e7  oddEvenSort.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'oddEvenSort.c'` -ne 519 && \
+  ${echo} 'restoration warning:  size of oddEvenSort.c is not 519'
+  fi
+fi
+# ============= swap.c ==============
+if test -f 'swap.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING swap.c (file already exists)'
+else
+${echo} 'x - extracting swap.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'swap.c' &&
+#include "my.h"
+X
+void swap(int list[], int i, int j){
+X
+X	int temp = list[i];
+X	list[i] = list[j];
+X	list [j] = temp;
+X
+X	return;
+}//end of function
+SHAR_EOF
+  (set 20 17 01 27 14 47 10 'swap.c'; eval "$shar_touch") &&
+  chmod 0644 'swap.c'
+if test $? -ne 0
+then ${echo} 'restore of swap.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'swap.c: MD5 check failed'
+       ) << \SHAR_EOF
+44d463d80fabcd6c9f9e8f14dfd1e390  swap.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'swap.c'` -ne 143 && \
+  ${echo} 'restoration warning:  size of swap.c is not 143'
+  fi
+fi
+# ============= my.h ==============
+if test -f 'my.h' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING my.h (file already exists)'
+else
+${echo} 'x - extracting my.h (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'my.h' &&
+#include <stdio.h>
+#include <stdlib.h>
+X
+//Function Declaration
+int main (int argc, char *argv[1]);
+X
+void oddEvenSort(int arr[], int length);
+X
+void swap(int list[], int i, int j);
+X
+//End Header
+SHAR_EOF
+  (set 20 17 01 27 16 09 13 'my.h'; eval "$shar_touch") &&
+  chmod 0644 'my.h'
+if test $? -ne 0
+then ${echo} 'restore of my.h failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'my.h: MD5 check failed'
+       ) << \SHAR_EOF
+8d95765680b7720e407991db080c038d  my.h
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'my.h'` -ne 193 && \
+  ${echo} 'restoration warning:  size of my.h is not 193'
+  fi
+fi
+if rm -fr ${lock_dir}
+then ${echo} 'x - removed lock directory `'${lock_dir}\''.'
+else ${echo} 'x - failed to remove lock directory `'${lock_dir}\''.'
+  exit 1
+fi
+exit 0
