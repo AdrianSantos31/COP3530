@@ -1,2 +1,2 @@
-# COP3530
+# data-structures
 Data Structures Projects
